@@ -1,0 +1,55 @@
+﻿@page
+@model Project.Pages.Cars.IndexModel
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form onsubmit="filterBrandSubmitHandler(event)">
+    <p>
+        Brand: <input type="text"/>
+        <button type="submit">Filter</button>
+    </p>
+</form>
+<table class="table car-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cars[0].Model)
+            </th>
+            <th class="price-header" onclick="changeSort()">
+                @Html.DisplayNameFor(model => model.Cars[0].PricePerDay)
+                <span class="sort-note">(click to sort)</span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (Models.Car item in Model.Cars) {
+        <tr>
+            <td class="brand-name">
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td class="price">
+                @Html.DisplayFor(modelItem => item.PricePerDay)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
