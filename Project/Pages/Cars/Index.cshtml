@@ -16,7 +16,7 @@
         <button type="submit">Filter</button>
     </p>
 </form>
-<table class="table car-table">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -25,16 +25,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cars[0].Model)
             </th>
-            <th class="price-header" onclick="changeSort()">
+            <th class="price-header" onclick="sortByPrice()">
                 @Html.DisplayNameFor(model => model.Cars[0].PricePerDay)
                 <span class="sort-note">(click to sort)</span>
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="table-body" data-order>
 @foreach (Models.Car item in Model.Cars) {
-        <tr>
+        <tr class="table-row">
             <td class="brand-name">
                 @Html.DisplayFor(modelItem => item.Brand)
             </td>

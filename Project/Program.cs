@@ -1,12 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Project.Data;
+using Microsoft.AspNetCore.Identity;
+using Project.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizePage("/Cars");
+});
+
 builder.Services.AddDbContext<ProjectContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ProjectContext") ?? throw new InvalidOperationException("Connection string 'ProjectContext' not found.")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("ProjectContext") ?? throw new InvalidOperationException("Connection string 'ProjectContext' not found.");
+    options.UseSqlServer(connectionString);
+});
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ProjectContext>();
+
 
 var app = builder.Build();
 
@@ -28,4 +40,3 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
-
